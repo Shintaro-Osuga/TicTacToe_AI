@@ -5,7 +5,7 @@ import java.lang.*;
 import java.lang.Package;
 import java.util.concurrent.ThreadLocalRandom;
 
-class Game{
+class Game extends GameTreeNode{
 
     public static void main(String[] args) throws Exception {
         Scanner scan = new Scanner(System.in);
@@ -58,7 +58,7 @@ class Game{
         }
     }
 
-    private static void Play(String opponent){
+    private  static void Play(String opponent){
         GameBoard board = new GameBoard();
         Scanner scan = new Scanner(System.in);
         int turn = 0;
@@ -69,8 +69,14 @@ class Game{
             System.out.println("turn$2= " + turn%2);
             if(opponent.toLowerCase().equals("ai") && turn%2 == 1)
             {
-                RandomMove(board);
-                
+                // RandomMove(board);
+                GameTreeNode TreeNode = new GameTreeNode();
+                TreeNode(board.clone(), 3);
+                // GameTreeNode.expandChildren(3, 0);
+                // GameTreeNode.runMiniMax(false, board.clone(), 0);
+                // int indice = GameTreeNode.getNodeNum();
+                // int[][] spaces = board.OpenSpaces();
+                board.tryPlacePiece(turn%2+1, TreeNode.getOptimalMove(board, turn, 3, true)[0], TreeNode.getOptimalMove(board, turn, 3, true)[1]);
                 board.print();
             }else{
                 while(accept1 == false){

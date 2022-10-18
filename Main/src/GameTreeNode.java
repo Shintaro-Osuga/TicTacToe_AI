@@ -1,22 +1,33 @@
 import java.util.*;
 
-public class GameTreeNode{
+public class GameTreeNode extends GameBoard{
     private List<GameTreeNode> children;
     private GameBoard gameBoard;
     private int minimaxValue;
     private int MAX_DEPTH = 3;
+    private int nodeNum;
 
+    public GameTreeNode()
+    {
+        MAX_DEPTH = 0;
+        nodeNum = 0;
+    }
 
     public GameTreeNode(GameBoard gameBoard, int MAX_DEPTH)
     {
         this.MAX_DEPTH = MAX_DEPTH;
         this.gameBoard = gameBoard;
-        this.children = new Arraylist<GameTreeNode>();
+        // this.children = new Arraylist<GameTreeNode>();
     }
 
     public GameBoard getGameBoard()
     {
         return gameBoard;
+    }
+
+    public int getNodeNum()
+    {
+        return nodeNum;
     }
 
 
@@ -77,6 +88,7 @@ public class GameTreeNode{
                     {
                         maxboard = children.get(i);
                         best = current;
+                        nodeNum = nodenum;
                     }
                 }
     
@@ -97,11 +109,25 @@ public class GameTreeNode{
                     {
                         maxboard = children.get(i);
                         best = current;
+                        nodeNum = nodenum;
                     }
                 }
             }
             return maxboard;
         }
+    }
+
+    public int[] getOptimalMove(GameBoard board, int turn, int MAX_DEPTH, boolean max)
+    {
+        this.MAX_DEPTH = MAX_DEPTH;
+        expandChildren(MAX_DEPTH, 0);
+
+        GameTreeNode node = runMiniMax(max, board, 0);
+
+        int index = nodeNum;
+        int[][] spaces = board.OpenSpaces();
+        int[] OptimalMove = new int[]{spaces[index][0], spaces[index][1]};
+        return OptimalMove;
     }
 
 
