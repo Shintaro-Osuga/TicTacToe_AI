@@ -5,7 +5,7 @@ import java.lang.*;
 import java.lang.Package;
 import java.util.concurrent.ThreadLocalRandom;
 
-class Game extends GameBoard{
+class Game{
 
     public static void main(String[] args) throws Exception {
         Scanner scan = new Scanner(System.in);
@@ -70,6 +70,7 @@ class Game extends GameBoard{
             if(opponent.toLowerCase().equals("ai") && turn%2 == 1)
             {
                 RandomMove(board);
+                
                 board.print();
             }else{
                 while(accept1 == false){

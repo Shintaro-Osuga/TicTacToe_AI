@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class GameBoard{
     private static final char X = 'X';
     private static final char O = 'O';
@@ -107,9 +109,202 @@ public class GameBoard{
         or lower numbers if player 2 is at an advantage
     */
 
-    // public int evaluate(){
+    public int evaluate()
+    {
+        int Xdoubles = 0;
+        int Odoubles = 0;
+        int Xsingles = 0;
+        int Osingles = 0;
 
-    // }
+        //Check to see who won if game has ended
+        if(checkWin() == true)
+        {
+            if((gameBoard[0][0] == gameBoard[0][1] && gameBoard[0][1] == gameBoard[0][2]))
+            {
+                if(gameBoard[0][1] == X)
+                {
+                    return 10;
+                }else{
+                    return -10;
+                }
+            }
+            if((gameBoard[1][0] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[1][2]))
+            {
+                if(gameBoard[1][1] == X)
+                {
+                    return 10;
+                }else{
+                    return -10;
+                }
+            }
+            if((gameBoard[2][0] == gameBoard[2][1] && gameBoard[2][1] == gameBoard[2][2]))
+            {
+                if(gameBoard[2][1] == X)
+                {
+                    return 10;
+                }else[
+                    return -10;
+                ]
+            }
+            if((gameBoard[0][0] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[2][2]) ||
+            (gameBoard[0][2] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[2][0]))
+            {
+                if(gameBoard[1][1] == X)
+                {
+                    return 10;
+                }else{
+                    return -10;
+                }
+            }
+        }
+
+        //If there are no open spaces, there is a draw
+        //return 0
+        if(OpenSpaces().length == 0)
+        {
+            return 0;
+        }
+
+        for(int i = 0; i < 3; i++)
+        {
+            //Checking horizontal values
+            if(gameBoard[i][0] == gameBoard[i][1] || gameBoard[i][1] == gameBoard[i][2])
+            {
+                if(gameBoard[i][1] == X)
+                {
+                    Xdoubles++;
+                }else{
+                    Odoubles++;
+                }
+            }
+
+            //Checking verticle values
+            if(gameBoard[0][i] == gameBoard[1][i] || gameBoard[1][i] == gameBoard[2][i])
+            {
+                if(gameBoard[1][i] == X)
+                {
+                    Xdoubles++;
+                }else{
+                    Odoubles++;
+                }
+            }
+        }
+
+        //Checking diagonal values
+        if(gameBoard[0][0] == gameBoard[1][1] || gameBoard[1][1] == gameBoard[2][2])
+        {
+            if(gameBoard[1][1] == X)
+            {
+                Xdoubles++;
+            }else{
+                Odoubles++;
+            }
+        }
+        if(gameBoard[0][2] == gameBoard[1][1] || gameBoard[1][1] == gameBoard[2][0])
+        {
+            if(gameBoard[1][1] == X)
+            {
+                Xdoubles++;
+            }else{
+                Odoubles++;
+            }
+        }
+
+
+
+        //Checking for singular values
+        //Checking first row
+        if(gameBoard[0][0] != EMPTY || gameBoard[0][1] != gameBoard[0][0] || gameBoard[1][0] != gameBoard[0][0] || gameBoard[1][1] != gameBoard[0][0])
+        {
+            if(gameBoard[0][0] == X)
+            {
+                Xsingles++;
+            }else{
+                Osingles++;
+            }
+        }
+        if(gameBoard[0][1] != EMPTY || gameBoard[0][0] != gameBoard[0][1] || gameBoard[0][2] != gameBoard[0][1] || gameBoard[1][1] != gameBoard[0][1])
+        {
+            if(gameBoard[0][1] == X)
+            {
+                Xsingles++;
+            }else{
+                Osingles++;
+            }
+        }
+        if(gameBoard[0][2] != EMPTY || gameBoard[0][1] != gameBoard[0][2] || gameBoard[1][2] != gameBoard[0][2] || gameBoard[1][1] != gameBoard[0][2])
+        {
+            if(gameBoard[0][2] == X)
+            {
+                Xsingles++;
+            }else{
+                Osingles++;
+            }
+        }
+
+        //Checking second row
+        if(gameBoard[1][0] != EMPTY || gameBoard[1][1] != gameBoard[0][0] || gameBoard[1][0] != gameBoard[1][1] || gameBoard[1][0] != gameBoard[1][2])
+        {
+            if(gameBoard[1][0] == X)
+            {
+                Xsingles++;
+            }else{
+                Osingles++;
+            }
+        }
+        if(gameBoard[1][1] != EMPTY || gameBoard[0][0] != gameBoard[1][1] || gameBoard[0][2] != gameBoard[1][1] || gameBoard[2][2] != gameBoard[1][1] ||
+        gameBoard[0][2] != gameBoard[1][1] || gameBoard[0][1] != gameBoard[1][1] || gameBoard[1][0] != gameBoard[1][1] || gameBoard[1][2] != gameBoard[1][1] ||
+        gameBoard[2][1] != gameBoard[1][1])
+        {
+            if(gameBoard[1][1] == X)
+            {
+                Xsingles++;
+            }else{
+                Osingles++;
+            }
+        }
+        if(gameBoard[1][2] != EMPTY || gameBoard[0][2] != gameBoard[1][2] || gameBoard[2][2] != gameBoard[1][2] || gameBoard[1][1] != gameBoard[1][2])
+        {
+            if(gameBoard[1][2] == X)
+            {
+                Xsingles++;
+            }else{
+                Osingles++;
+            }
+        }
+
+        //Checking third row
+        if(gameBoard[2][0] != EMPTY || gameBoard[1][0] != gameBoard[2][0] || gameBoard[2][1] != gameBoard[2][0] || gameBoard[1][1] != gameBoard[2][0])
+        {
+            if(gameBoard[2][0] == X)
+            {
+                Xsingles++;
+            }else{
+                Osingles++;
+            }
+        }
+        if(gameBoard[2][1] != EMPTY || gameBoard[2][0] != gameBoard[2][1] || gameBoard[2][2] != gameBoard[2][1] || gameBoard[1][1] != gameBoard[2][1])
+        {
+            if(gameBoard[2][1] == X)
+            {
+                Xsingles++;
+            }else{
+                Osingles++;
+            }
+        }
+        if(gameBoard[2][2] != EMPTY || gameBoard[2][1] != gameBoard[2][2] || gameBoard[1][2] != gameBoard[2][2] || gameBoard[1][1] != gameBoard[2][2])
+        {
+            if(gameBoard[2][2] == X)
+            {
+                Xsingles++;
+            }else{
+                Osingles++;
+            }
+        }
+
+        int eval = (3*Xdoubles) + Xsingles - ((3*Odoubles) + Osingles);
+        return eval;
+    }
 
     /*
         Prints out Current Gameboard
@@ -153,4 +348,25 @@ public class GameBoard{
     }
 
 
+    public int[][] OpenSpaces()
+    {
+        ArrayList<int[]> countlist = new ArrayList<int[]>();
+        for(int i = 0; i < 3; i++)
+        {
+            for(int j = 0; j < 3; j++)
+            {
+                if(gameBoard[i][j] == EMPTY)
+                {
+                    countlist.add(new int[]{i,j});
+                }
+            }
+        }
+
+        int[][] count = new int[countlist.size()][2];
+        for(int i = 0; i < countlist.size(); i++)
+        {
+            count[i] = countlist.get(i);
+        }
+        return count;
+    }
 }
