@@ -7,8 +7,11 @@ public class GameBoard{
     private char[][] gameBoard = {{EMPTY,EMPTY,EMPTY}
                                  ,{EMPTY,EMPTY,EMPTY}
                                  ,{EMPTY,EMPTY,EMPTY}};
+    private int[][] intboard = {{0,0,0},
+                                {0,0,0},
+                                {0,0,0}};
 
-    
+
     /*  
         checks that the given coords are inbounds and not already occupied
         and places a piece (X for player 1, 0 for player 2)
@@ -26,8 +29,10 @@ public class GameBoard{
             if(player == 1)
             {
                 gameBoard[row][column] = X;
+                intboard[row][column] = -1;
             }else if(player == 0){
-                gameBoard[row][column] = O;    
+                gameBoard[row][column] = O;
+                intboard[row][column] = 1;    
             }
             return true;
         }
@@ -123,39 +128,39 @@ public class GameBoard{
             {
                 if(gameBoard[0][1] == X)
                 {
-                    return 10;
+                    return 100;
                 }else{
-                    return -10;
+                    return -100;
                 }
             }
             if((gameBoard[1][0] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[1][2]))
             {
                 if(gameBoard[1][1] == X)
                 {
-                    return 10;
+                    return 100;
                 }else{
-                    return -10;
+                    return -100;
                 }
             }
             if((gameBoard[2][0] == gameBoard[2][1] && gameBoard[2][1] == gameBoard[2][2]))
             {
                 if(gameBoard[2][1] == X)
                 {
-                    return 10;
-                }else[
-                    return -10;
-                ]
+                    return 100;
+                }else{
+                    return -100;
+                }
             }
             if((gameBoard[0][0] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[2][2]) ||
             (gameBoard[0][2] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[2][0]))
             {
                 if(gameBoard[1][1] == X)
                 {
-                    return 10;
+                    return 100;
                 }else{
-                    return -10;
+                    return -100;
                 }
-            }
+            }   
         }
 
         //If there are no open spaces, there is a draw
@@ -306,6 +311,42 @@ public class GameBoard{
         return eval;
     }
 
+
+    /*Evaluate with intboard */
+    public int evaluate2()
+    {
+        if(OpenSpaces().length == 0)
+        {
+            return 0;
+        }
+
+        int rowtally1 = 0;
+        int rowtally2 = 0;
+        int rowtally3 = 0;
+        int coltally1 = 0;
+        int coltally2 = 0;
+        int coltally3 = 0;
+        for(int i = 0; i < 3; i++)
+        {
+            rowtally1 = rowtally1 + intboard[0][i];
+            rowtally2 = rowtally2 + intboard[1][i];
+            rowtally3 = rowtally3 + intboard[2][i];
+
+            coltally1 = coltally1 + intboard[i][0];
+            coltally2 = coltally2 + intboard[i][1];
+            coltally3 = coltally3 + intboard[i][2];
+        }
+
+        if(rowtally1 == 2 || rowtally1 == -2 ||
+           rowtally2 == 2 || rowtally2 == -2 ||
+           rowtally3 == 2 || rowtally3 == -2)
+        {
+            
+        }
+        int eval = (3*Xdoubles) + Xsingles - ((3*Odoubles) + Osingles);
+        return eval;
+    }
+
     /*
         Prints out Current Gameboard
     */
@@ -336,14 +377,47 @@ public class GameBoard{
         }
     }
 
+    public void printInt()
+    {
+        for(int i = 0; i < 3; i++)
+        {
+            for(int j = 0; j < 3; j++)
+            {
+                System.out.print(" " + intboard[i][j]+ " ");
+                if(j < 2)
+                {
+                    System.out.print('|');
+                }
+            }
+            System.out.println("");
+            if(i < 2){
+                System.out.print("---+---+---");
+                System.out.println("");
+            }
+        }
+    }
+
+
     /*
         Creates and returns a clone of this game board
     */
     public GameBoard clone(){
         GameBoard clone = new GameBoard();
+        for(int i = 0; i < 3 ; i++)
+        {
+            char[] aMatrix = gameBoard[i];
+            int   aLength = aMatrix.length;
+            clone.gameBoard[i] = new char[aLength];
+            System.arraycopy(aMatrix, 0, clone.gameBoard[i], 0, aLength);
+        }
 
-        clone.gameBoard = gameBoard;
-
+        for(int i = 0; i < 3 ; i++)
+        {
+            int[] aMatrix = intboard[i];
+            int   aLength = aMatrix.length;
+            clone.intboard[i] = new int[aLength];
+            System.arraycopy(aMatrix, 0, clone.intboard[i], 0, aLength);
+        }
         return clone;
     }
 
