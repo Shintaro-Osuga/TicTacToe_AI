@@ -126,7 +126,7 @@ public class GameTreeNode extends GameBoard{
             //     System.out.println("eval: " + node.eval);
             //     System.out.println("depth: " + depth + ": iter " + i);
             // }
-            node.gameBoard.print();
+            // node.gameBoard.print();
             // node.gameBoard.printInt();
             if(depth < MAX_DEPTH)
             {
