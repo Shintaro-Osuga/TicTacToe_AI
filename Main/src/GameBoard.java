@@ -105,6 +105,10 @@ public class GameBoard{
         {
             return true;
         }
+        if(OpenSpaces().length == 0)
+        {
+            return true;
+        }
         return false;
 
     }
@@ -114,7 +118,7 @@ public class GameBoard{
         or lower numbers if player 2 is at an advantage
     */
 
-    public int evaluate()
+    public int evaluate2()
     {
         int Xdoubles = 0;
         int Odoubles = 0;
@@ -313,19 +317,29 @@ public class GameBoard{
 
 
     /*Evaluate with intboard */
-    public int evaluate2()
+    public int evaluate()
     {
+        int eval = 0;
+
         if(OpenSpaces().length == 0)
         {
             return 0;
         }
 
+
         int rowtally1 = 0;
         int rowtally2 = 0;
         int rowtally3 = 0;
+        int[] rowtally = new int[3];
+
         int coltally1 = 0;
         int coltally2 = 0;
         int coltally3 = 0;
+        int[] coltally = new int[3];
+
+        int diagtally1 = intboard[0][0] + intboard[1][1] + intboard[2][2];
+        int diagtally2 = intboard[2][0] + intboard[1][1] + intboard[0][2];
+
         for(int i = 0; i < 3; i++)
         {
             rowtally1 = rowtally1 + intboard[0][i];
@@ -335,15 +349,52 @@ public class GameBoard{
             coltally1 = coltally1 + intboard[i][0];
             coltally2 = coltally2 + intboard[i][1];
             coltally3 = coltally3 + intboard[i][2];
+
+            rowtally[i] = intboard[0][i] + intboard[1][i] + intboard[2][i];
+            coltally[i] = intboard[i][0] + intboard[i][1] + intboard[i][2];
         }
 
-        if(rowtally1 == 2 || rowtally1 == -2 ||
-           rowtally2 == 2 || rowtally2 == -2 ||
-           rowtally3 == 2 || rowtally3 == -2)
+        if(checkWin() == true)
         {
-            
+            if(rowtally1 == 3  || rowtally2 == 3 || rowtally3 == 3 || 
+               coltally1 == 3  || coltally2 == 3 || coltally3 == 3 ||
+               diagtally1 == 3 || diagtally2 == 3)
+            {
+                return 100;
+            }else if(rowtally1 == -3  || rowtally2 == -3 || rowtally3 == -3 || 
+                     coltally1 == -3  || coltally2 == -3 || coltally3 == -3 ||
+                     diagtally1 == -3 || diagtally2 == -3)
+            {
+                return -100;
+            }
         }
-        int eval = (3*Xdoubles) + Xsingles - ((3*Odoubles) + Osingles);
+
+        if(rowtally1 == 2 || rowtally2 == 2 || rowtally3 == 2 || 
+           coltally1 == 2 || coltally2 == 2 || coltally3 == 2 ||
+           diagtally1 == 2 || diagtally2 == 2)
+        {
+            return eval + 10;
+        }else if(rowtally1 == -2  || rowtally2 == -2 || rowtally3 == -2 || 
+                 coltally1 == -2  || coltally2 == -2 || coltally3 == -2 ||
+                diagtally1 == -2 || diagtally2 == -2)
+        {
+            return eval - 10;
+        }
+
+        int Odoubles = 0;
+        int Xdoubles = 0;
+
+        for(int i = 0; i < 3; i++)
+        {
+            if(rowtally[i] == 2)
+            {
+                Odoubles++;
+            }else if(rowtally[i] == -2)
+            {
+                Xdoubles++;
+            }
+        }
+        // eval = (3*Odoubles)-(3*Xdoubles);
         return eval;
     }
 

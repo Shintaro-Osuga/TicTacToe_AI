@@ -98,6 +98,8 @@ public class GameTreeNode extends GameBoard{
             move[1] = col;
         }
 
+    /* Expand Children */
+
     public void expandChildren(int depth)
     {
         GameBoard board = gameBoard.clone();
@@ -107,35 +109,38 @@ public class GameTreeNode extends GameBoard{
         int player = (depth+1)%2;
 
         
-        for(int i=0; i< Spaces.length; i++)
-            {
-                GameBoard temp = board.clone();
-                temp.tryPlacePiece(player, Spaces[i][0], Spaces[i][1]);
-                GameTreeNode node = new GameTreeNode(temp, i, depth, temp.evaluate(), MAX_DEPTH);
-                // node.children.add(node);
-                node.setMove(Spaces[i][0], Spaces[i][1]);
-                children.add(node);
-                // if(node.move[0] == 0 && node.move[1] == 0)
-                // {
-                //     System.out.println(node.eval);
+        for(int i=0; i < Spaces.length; i++)
+        {
+            GameBoard temp = board.clone();
+            temp.tryPlacePiece(player, Spaces[i][0], Spaces[i][1]);
+            GameTreeNode node = new GameTreeNode(temp, i, depth, temp.evaluate(), MAX_DEPTH);
+            // node.children.add(node);
+            node.setMove(Spaces[i][0], Spaces[i][1]);
+            children.add(node);
+            // if(node.move[0] == 0 && node.move[1] == 0)
+            // {
                 // }
-                // System.out.println("depth: " + depth + ": iter " + i);
                 // System.out.println("row: " + node.move[0] + " col: " + node.move[1]);
-                // node.gameBoard.print();
-                // node.gameBoard.printInt();
-                if(depth < MAX_DEPTH)
-                {
-                    children.get(i).expandChildren(depth+1);
-                }
-                // if(depth == 3 & i == 0)
-                // {
-                //     node.gameBoard.print();
-                // }
-                
+            // if(node.eval >= 10)
+            // {
+            //     System.out.println("eval: " + node.eval);
+            //     System.out.println("depth: " + depth + ": iter " + i);
+            // }
+            node.gameBoard.print();
+            // node.gameBoard.printInt();
+            if(depth < MAX_DEPTH)
+            {
+                children.get(i).expandChildren(depth+1);
             }
+            // if(depth == 3 & i == 0)
+            // {
+            //     node.gameBoard.print();
+            // }
+            
+        }
     }
 
-    public GameTreeNode runMiniMax(boolean max)
+    public GameTreeNode runMiniMax2(boolean max)
     {
         if(eval == 10 || eval == -10)
         {
@@ -215,9 +220,9 @@ public class GameTreeNode extends GameBoard{
         return bestNode;
     }
 
-    public GameTreeNode runMiniMax2(boolean max)
+    public GameTreeNode runMiniMax(boolean max)
     {
-        if(eval == 100 || eval == -100)
+        if(eval >= 99 || eval <= -101)
         {
             return head;
         }
@@ -231,7 +236,12 @@ public class GameTreeNode extends GameBoard{
             
             for(int i = 0; i < Spaces.length; i++)
             {
-                if(depth+1 == MAX_DEPTH)
+                if(children.get(i).eval < best)
+                {
+                    bestNode = children.get(i);
+                    best = children.get(i).eval;
+                    break;
+                }else if(depth+1 == MAX_DEPTH)
                 {
                     if(children.get(i).eval > best)
                     {
@@ -255,7 +265,12 @@ public class GameTreeNode extends GameBoard{
             
             for(int i = 0; i< Spaces.length; i++)
             {
-                if(depth+1 == MAX_DEPTH)
+                if(children.get(i).eval > best)
+                {
+                    bestNode = children.get(i);
+                    best = children.get(i).eval;
+                    break;
+                }else if(depth+1 == MAX_DEPTH)
                 {
                     if(children.get(i).eval < best)
                     {
@@ -273,7 +288,6 @@ public class GameTreeNode extends GameBoard{
             }
             bestNode.beta = best;
             return bestNode;
-            
         }
     }
 

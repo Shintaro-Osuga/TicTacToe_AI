@@ -58,7 +58,7 @@ class Game extends GameTreeNode{
         }
     }
 
-    private  static void Play(String opponent){
+    private static void Play(String opponent){
         GameBoard board = new GameBoard();
         Scanner scan = new Scanner(System.in);
         int turn = 0;
@@ -72,7 +72,7 @@ class Game extends GameTreeNode{
                 // RandomMove(board);
                 GameTreeNode TreeNode = new GameTreeNode(board.clone(), 3);
                 TreeNode.expandChildren(0);
-                GameTreeNode endNode = TreeNode.runMiniMax2(true);
+                GameTreeNode endNode = TreeNode.runMiniMax(true);
                 System.out.println("row: " + endNode.move[0] + " col: " + endNode.move[1]);
                 System.out.println("eval: " + endNode.eval);
                 board.tryPlacePiece(1, endNode.move[0], endNode.move[1]);
@@ -102,7 +102,12 @@ class Game extends GameTreeNode{
             turn++;
             accept1 = false;
         }
-        System.out.println("Congrats Player " + ((turn-1)%2+1));
+        if(board.evaluate() == 0)
+        {
+            System.out.println("That's a tie! Good Game!");
+        }else{
+            System.out.println("Congrats Player " + ((turn-1)%2+1));
+        }
         // return board.clone();
     }
 
