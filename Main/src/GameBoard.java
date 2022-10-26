@@ -323,7 +323,7 @@ public class GameBoard{
 
         if(OpenSpaces().length == 0)
         {
-            return 100;
+            return 0;
         }
 
 
@@ -360,25 +360,36 @@ public class GameBoard{
                coltally1 == 3  || coltally2 == 3 || coltally3 == 3 ||
                diagtally1 == 3 || diagtally2 == 3)
             {
-                return 100;
+                eval = eval - 100;
             }else if(rowtally1 == -3  || rowtally2 == -3 || rowtally3 == -3 || 
                      coltally1 == -3  || coltally2 == -3 || coltally3 == -3 ||
                      diagtally1 == -3 || diagtally2 == -3)
             {
-                return -100;
+                eval = eval + 100;
             }
         }
 
-        if(rowtally1 == 2 || rowtally2 == 2 || rowtally3 == 2 || 
-           coltally1 == 2 || coltally2 == 2 || coltally3 == 2 ||
-           diagtally1 == 2 || diagtally2 == 2)
+        // if(rowtally1 == 2 || rowtally2 == 2 || rowtally3 == 2 || 
+        //    coltally1 == 2 || coltally2 == 2 || coltally3 == 2 ||
+        //    diagtally1 == 2 || diagtally2 == 2)
+        // {
+        //     eval = eval + 10;
+        // }else if(rowtally1 == -2  || rowtally2 == -2 || rowtally3 == -2 || 
+        //          coltally1 == -2  || coltally2 == -2 || coltally3 == -2 ||
+        //         diagtally1 == -2 || diagtally2 == -2)
+        // {
+        //     eval = eval - 10;
+        // }
+
+        for(int i = 0; i < 3; i++)
         {
-            eval = eval + 10;
-        }else if(rowtally1 == -2  || rowtally2 == -2 || rowtally3 == -2 || 
-                 coltally1 == -2  || coltally2 == -2 || coltally3 == -2 ||
-                diagtally1 == -2 || diagtally2 == -2)
-        {
-            eval = eval - 10;
+            if(rowtally[i] == 2 || coltally[i] == 2)
+            {
+                eval = eval - 10;
+            }else if(rowtally[i] == -2 || coltally[i] == -2)
+            {
+                eval = eval + 10;
+            }
         }
 
         int Odoubles = 0;

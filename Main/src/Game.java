@@ -70,7 +70,7 @@ class Game extends GameTreeNode{
             if(opponent.toLowerCase().equals("ai") && turn%2 == 1)
             {
                 // RandomMove(board);
-                GameTreeNode TreeNode = new GameTreeNode(board.clone(), 3);
+                GameTreeNode TreeNode = new GameTreeNode(board.clone(), 4);
                 TreeNode.expandChildren(0);
                 GameTreeNode endNode = TreeNode.runMiniMax(true);
                 System.out.println("row: " + endNode.move[0] + " col: " + endNode.move[1]);
