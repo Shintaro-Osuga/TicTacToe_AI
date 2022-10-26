@@ -70,14 +70,20 @@ class Game extends GameTreeNode{
             if(opponent.toLowerCase().equals("ai") && turn%2 == 1)
             {
                 // RandomMove(board);
-                GameTreeNode TreeNode = new GameTreeNode();
-                TreeNode(board.clone(), 3);
+                GameTreeNode TreeNode = new GameTreeNode(board.clone(), 3);
+                TreeNode.expandChildren(0);
+                GameTreeNode endNode = TreeNode.runMiniMax2(true);
+                System.out.println("row: " + endNode.move[0] + " col: " + endNode.move[1]);
+                System.out.println("eval: " + endNode.eval);
+                board.tryPlacePiece(1, endNode.move[0], endNode.move[1]);
+
                 // GameTreeNode.expandChildren(3, 0);
                 // GameTreeNode.runMiniMax(false, board.clone(), 0);
                 // int indice = GameTreeNode.getNodeNum();
                 // int[][] spaces = board.OpenSpaces();
-                board.tryPlacePiece(turn%2+1, TreeNode.getOptimalMove(board, turn, 3, true)[0], TreeNode.getOptimalMove(board, turn, 3, true)[1]);
+                // board.tryPlacePiece(turn%2+1, TreeNode.getOptimalMove(board, turn, 3, true)[0], TreeNode.getOptimalMove(board, turn, 3, true)[1]);
                 board.print();
+
             }else{
                 while(accept1 == false){
                     System.out.println("Player: " + (turn%2+1));
